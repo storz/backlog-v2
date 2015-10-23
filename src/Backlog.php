@@ -75,9 +75,14 @@ class Backlog
 		$http_method = strtoupper($http_method);
 		switch ($http_method){
 			case 'POST':
+				$content = http_build_query($query, '', '&');
 				$header  = array_merge(array(
 					'Content-Type' => 'application/x-www-form-urlencoded', // multipart/form-data, 
+					'Content-Length' => strlen($content)
 				), $opt['header']);
+				$query = array(
+					'apiKey' => $this->apiKey,
+				);
 				break;
 			
 			case 'GET':
@@ -101,9 +106,9 @@ class Backlog
 				'ignore_errors' => true,
 			)
 		);
-		// if (isset($content)){
-		// 	$context['html']['content'] = $content;
-		// }
+		if (isset($content)){
+			$context['http']['content'] = $content;
+		}
 
 
 		$response = file_get_contents($url, false, stream_context_create($context));
