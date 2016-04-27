@@ -131,7 +131,7 @@ class Backlog
 			// error
 			throw new BacklogException($json['errors'][0]['message'], $json['errors'][0]['code'], null, $json);
 		}
-		// Backlog API が返す JSON が常に壊れているようなので、JSON_ERROR_SYNTAX は許容する
+		// Backlog API が返す JSON が壊れていることがあるので、JSON_ERROR_SYNTAX は許容する
 		elseif ('application/json' == $type and JSON_ERROR_NONE !== $json_error and JSON_ERROR_SYNTAX !== $json_error){
 			// error
 			throw new BacklogException('json error.', $json_error, null, $response);
